@@ -9,7 +9,7 @@ import java.time.LocalDate;
  *
  */
 
-public class Voto {
+public class Voto implements Comparable<Voto>{
 		
 	private String corso;
 	private int voto;
@@ -26,6 +26,18 @@ public class Voto {
 		this.corso = corso;
 		this.voto = voto;
 		this.data = data;
+	}
+	
+	/**
+	 * copy constructor di {@link Voto}
+	 * @param v
+	 */
+	public Voto(Voto v) {
+		this.corso = v.corso; // permesso da java in alternativa a v.getCorso();
+		this.voto = v.voto;
+		this.data = v.data; /* gli attributi di Voto sono di tipo immutabile (??), quindi per questi tipi non si pone il problema della copia del riferimento o del valore.
+							 Nel caso ci fossero attributi non di tipo immutabile per creare un nuovo oggetto copia e non solo una copia del riferimento si potrebbe
+							 usare un copy constructor anche per loro */
 	}
 	public String getCorso() {
 		return corso;
@@ -73,6 +85,15 @@ public class Voto {
 		return true;
 	}
 	
-	
+	@Override
+	public Voto clone() {
+		Voto v = new Voto(this.corso, this.voto, this.data);
+		return v;
+	}
+
+	@Override
+	public int compareTo(Voto o) { // coerente con l'override del metodo equals, cioè il confronto avviene sul nome corso per entrambi
+		return this.corso.compareTo(o.corso);
+	}
 	
 }
